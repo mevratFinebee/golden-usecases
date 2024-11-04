@@ -41,8 +41,12 @@ resource "kubiya_knowledge" "kubernetes_ops" {
 }
 
 # Load prompts from files
+
+data "local_file" "health_check_prompt" {
+  filename = file("${path.module}/prompts/health_check.md")
+}
 locals {
-  health_check_prompt     = file("${path.module}/prompts/health_check.md")
+  # health_check_prompt     = file("${path.module}/prompts/health_check.md")
   resource_check_prompt   = file("${path.module}/prompts/resource_check.md")
   cleanup_prompt          = file("${path.module}/prompts/cleanup.md")
   network_check_prompt    = file("${path.module}/prompts/network_check.md")
@@ -72,7 +76,7 @@ resource "kubiya_scheduled_task" "health_check" {
   repeat         = var.health_check_repeat
   channel_id     = var.notification_slack_channel
   agent          = kubiya_agent.kubernetes_crew.name
-  description    = var.health_check_prompt != "" ? var.health_check_prompt : local.health_check_prompt
+  description    = var.health_check_prompt != "" ? var.health_check_prompt : data.local_file.health_check_prompt.content
 }
 
 # Resource Optimization Task
