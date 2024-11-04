@@ -126,8 +126,8 @@ resource "kubiya_knowledge" "kubernetes_troubleshooting" {
 # Core Health Check Task
 resource "kubiya_scheduled_task" "health_check" {
   count          = var.enabled_tasks.health_check ? 1 : 0
-  scheduled_time = var.task_schedules.health_check.start_time
-  repeat         = var.task_schedules.health_check.repeat
+  scheduled_time = try(var.task_schedules.health_check.start_time, "2024-11-3 08:00:00")
+  repeat         = try(var.task_schedules.health_check.repeat, "daily")
   channel_id     = var.notification_slack_channel
   agent          = kubiya_agent.kubernetes_crew.name
   description    = data.http.health_check_prompt.response_body
@@ -136,8 +136,8 @@ resource "kubiya_scheduled_task" "health_check" {
 # Resource Optimization Task
 resource "kubiya_scheduled_task" "resource_check" {
   count          = var.enabled_tasks.resource_check ? 1 : 0
-  scheduled_time = var.task_schedules.resource_check.start_time
-  repeat         = var.task_schedules.resource_check.repeat
+  scheduled_time = try(var.task_schedules.resource_check.start_time, "2024-11-3 08:00:00")
+  repeat         = try(var.task_schedules.resource_check.repeat, "daily")
   channel_id     = var.notification_slack_channel
   agent          = kubiya_agent.kubernetes_crew.name
   description    = data.http.resource_check_prompt.response_body
@@ -146,8 +146,8 @@ resource "kubiya_scheduled_task" "resource_check" {
 # Cleanup Task
 resource "kubiya_scheduled_task" "cleanup" {
   count          = var.enabled_tasks.cleanup ? 1 : 0
-  scheduled_time = var.task_schedules.cleanup.start_time
-  repeat         = var.task_schedules.cleanup.repeat
+  scheduled_time = try(var.task_schedules.cleanup.start_time, "2024-11-3 08:00:00")
+  repeat         = try(var.task_schedules.cleanup.repeat, "weekly")
   channel_id     = var.notification_slack_channel
   agent          = kubiya_agent.kubernetes_crew.name
   description    = data.http.cleanup_prompt.response_body
@@ -156,8 +156,8 @@ resource "kubiya_scheduled_task" "cleanup" {
 # Network Check Task
 resource "kubiya_scheduled_task" "network_check" {
   count          = var.enabled_tasks.network_check ? 1 : 0
-  scheduled_time = var.task_schedules.network_check.start_time
-  repeat         = var.task_schedules.network_check.repeat
+  scheduled_time = try(var.task_schedules.network_check.start_time, "2024-11-3 08:00:00")
+  repeat         = try(var.task_schedules.network_check.repeat, "daily")
   channel_id     = var.notification_slack_channel
   agent          = kubiya_agent.kubernetes_crew.name
   description    = data.http.network_check_prompt.response_body
@@ -166,8 +166,8 @@ resource "kubiya_scheduled_task" "network_check" {
 # Security Check Task
 resource "kubiya_scheduled_task" "security_check" {
   count          = var.enabled_tasks.security_check ? 1 : 0
-  scheduled_time = var.task_schedules.security_check.start_time
-  repeat         = var.task_schedules.security_check.repeat
+  scheduled_time = try(var.task_schedules.security_check.start_time, "2024-11-3 08:00:00")
+  repeat         = try(var.task_schedules.security_check.repeat, "weekly")
   channel_id     = var.notification_slack_channel
   agent          = kubiya_agent.kubernetes_crew.name
   description    = data.http.security_check_prompt.response_body
@@ -176,8 +176,8 @@ resource "kubiya_scheduled_task" "security_check" {
 # Backup Verification Task
 resource "kubiya_scheduled_task" "backup_check" {
   count          = var.enabled_tasks.backup_check ? 1 : 0
-  scheduled_time = var.task_schedules.backup_check.start_time
-  repeat         = var.task_schedules.backup_check.repeat
+  scheduled_time = try(var.task_schedules.backup_check.start_time, "2024-11-3 08:00:00")
+  repeat         = try(var.task_schedules.backup_check.repeat, "daily")
   channel_id     = var.notification_slack_channel
   agent          = kubiya_agent.kubernetes_crew.name
   description    = data.http.backup_check_prompt.response_body
@@ -186,8 +186,8 @@ resource "kubiya_scheduled_task" "backup_check" {
 # Cost Analysis Task
 resource "kubiya_scheduled_task" "cost_analysis" {
   count          = var.enabled_tasks.cost_analysis ? 1 : 0
-  scheduled_time = var.task_schedules.cost_analysis.start_time
-  repeat         = var.task_schedules.cost_analysis.repeat
+  scheduled_time = try(var.task_schedules.cost_analysis.start_time, "2024-11-3 08:00:00")
+  repeat         = try(var.task_schedules.cost_analysis.repeat, "weekly")
   channel_id     = var.notification_slack_channel
   agent          = kubiya_agent.kubernetes_crew.name
   description    = data.http.cost_analysis_prompt.response_body
@@ -196,8 +196,8 @@ resource "kubiya_scheduled_task" "cost_analysis" {
 # Compliance Check Task
 resource "kubiya_scheduled_task" "compliance_check" {
   count          = var.enabled_tasks.compliance_check ? 1 : 0
-  scheduled_time = var.task_schedules.compliance_check.start_time
-  repeat         = var.task_schedules.compliance_check.repeat
+  scheduled_time = try(var.task_schedules.compliance_check.start_time, "2024-11-3 08:00:00")
+  repeat         = try(var.task_schedules.compliance_check.repeat, "monthly")
   channel_id     = var.notification_slack_channel
   agent          = kubiya_agent.kubernetes_crew.name
   description    = data.http.compliance_check_prompt.response_body
@@ -206,8 +206,8 @@ resource "kubiya_scheduled_task" "compliance_check" {
 # Update Check Task
 resource "kubiya_scheduled_task" "update_check" {
   count          = var.enabled_tasks.update_check ? 1 : 0
-  scheduled_time = var.task_schedules.update_check.start_time
-  repeat         = var.task_schedules.update_check.repeat
+  scheduled_time = try(var.task_schedules.update_check.start_time, "2024-11-3 08:00:00")
+  repeat         = try(var.task_schedules.update_check.repeat, "weekly")
   channel_id     = var.notification_slack_channel
   agent          = kubiya_agent.kubernetes_crew.name
   description    = data.http.update_check_prompt.response_body
@@ -216,8 +216,8 @@ resource "kubiya_scheduled_task" "update_check" {
 # Capacity Planning Task
 resource "kubiya_scheduled_task" "capacity_check" {
   count          = var.enabled_tasks.capacity_check ? 1 : 0
-  scheduled_time = var.task_schedules.capacity_check.start_time
-  repeat         = var.task_schedules.capacity_check.repeat
+  scheduled_time = try(var.task_schedules.capacity_check.start_time, "2024-11-3 08:00:00")
+  repeat         = try(var.task_schedules.capacity_check.repeat, "monthly")
   channel_id     = var.notification_slack_channel
   agent          = kubiya_agent.kubernetes_crew.name
   description    = data.http.capacity_check_prompt.response_body
@@ -226,8 +226,8 @@ resource "kubiya_scheduled_task" "capacity_check" {
 # Upgrade Assessment Task
 resource "kubiya_scheduled_task" "upgrade_check" {
   count          = var.enabled_tasks.upgrade_check ? 1 : 0
-  scheduled_time = var.task_schedules.upgrade_check.start_time
-  repeat         = var.task_schedules.upgrade_check.repeat
+  scheduled_time = try(var.task_schedules.upgrade_check.start_time, "2024-11-3 08:00:00")
+  repeat         = try(var.task_schedules.upgrade_check.repeat, "monthly")
   channel_id     = var.notification_slack_channel
   agent          = kubiya_agent.kubernetes_crew.name
   description    = data.http.upgrade_check_prompt.response_body
@@ -236,8 +236,8 @@ resource "kubiya_scheduled_task" "upgrade_check" {
 # Scaling Check Task
 resource "kubiya_scheduled_task" "scaling_check" {
   count          = var.enabled_tasks.scaling_check ? 1 : 0
-  scheduled_time = var.task_schedules.scaling_check.start_time
-  repeat         = var.task_schedules.scaling_check.repeat
+  scheduled_time = try(var.task_schedules.scaling_check.start_time, "2024-11-3 08:00:00")
+  repeat         = try(var.task_schedules.scaling_check.repeat, "monthly")
   channel_id     = var.notification_slack_channel
   agent          = kubiya_agent.kubernetes_crew.name
   description    = data.http.scaling_check_prompt.response_body
