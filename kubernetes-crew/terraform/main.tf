@@ -14,59 +14,59 @@ provider "kubiya" {
 }
 
 data "http" "health_check_prompt" {
-  url = "https://raw.githubusercontent.com/kubiyabot/community-tools/refinement/kubernetes/prompts/health_check.md"
+  url = "https://gitlab.com/kubiyabot/golden-usecases/-/raw/main/kubernetes-crew/terraform/prompts/health_check.md"
 }
 
 data "http" "resource_check_prompt" {
-  url = "https://raw.githubusercontent.com/kubiyabot/community-tools/refinement/kubernetes/prompts/resource_check.md"
+  url = "https://gitlab.com/kubiyabot/golden-usecases/-/raw/main/kubernetes-crew/terraform/prompts/resource_check.md"
 }
 
 data "http" "cleanup_prompt" {
-  url = "https://raw.githubusercontent.com/kubiyabot/community-tools/refinement/kubernetes/prompts/cleanup.md"
+  url = "https://gitlab.com/kubiyabot/golden-usecases/-/raw/main/kubernetes-crew/terraform/prompts/cleanup.md"
 }
 
 data "http" "network_check_prompt" {
-  url = "https://raw.githubusercontent.com/kubiyabot/community-tools/refinement/kubernetes/prompts/network_check.md"
+  url = "https://gitlab.com/kubiyabot/golden-usecases/-/raw/main/kubernetes-crew/terraform/prompts/network_check.md"
 }
 
 data "http" "security_check_prompt" {
-  url = "https://raw.githubusercontent.com/kubiyabot/community-tools/refinement/kubernetes/prompts/security_check.md"
+  url = "https://gitlab.com/kubiyabot/golden-usecases/-/raw/main/kubernetes-crew/terraform/prompts/security_check.md"
 }
 
 data "http" "backup_check_prompt" {
-  url = "https://raw.githubusercontent.com/kubiyabot/community-tools/refinement/kubernetes/prompts/backup_check.md"
+  url = "https://gitlab.com/kubiyabot/golden-usecases/-/raw/main/kubernetes-crew/terraform/prompts/backup_check.md"
 }
 
 data "http" "cost_analysis_prompt" {
-  url = "https://raw.githubusercontent.com/kubiyabot/community-tools/refinement/kubernetes/prompts/cost_analysis.md"
+  url = "https://gitlab.com/kubiyabot/golden-usecases/-/raw/main/kubernetes-crew/terraform/prompts/cost_analysis.md"
 }
 
 data "http" "compliance_check_prompt" {
-  url = "https://raw.githubusercontent.com/kubiyabot/community-tools/refinement/kubernetes/prompts/compliance_check.md"
+  url = "https://gitlab.com/kubiyabot/golden-usecases/-/raw/main/kubernetes-crew/terraform/prompts/compliance_check.md"
 }
 
 data "http" "update_check_prompt" {
-  url = "https://raw.githubusercontent.com/kubiyabot/community-tools/refinement/kubernetes/prompts/update_check.md"
+  url = "https://gitlab.com/kubiyabot/golden-usecases/-/raw/main/kubernetes-crew/terraform/prompts/update_check.md"
 }
 
 data "http" "capacity_check_prompt" {
-  url = "https://raw.githubusercontent.com/kubiyabot/community-tools/refinement/kubernetes/prompts/capacity_check.md"
+  url = "https://gitlab.com/kubiyabot/golden-usecases/-/raw/main/kubernetes-crew/terraform/prompts/capacity_check.md"
 }
 
 data "http" "kubernetes_ops_prompt" {
-  url = "https://raw.githubusercontent.com/kubiyabot/terraform-modules/refs/heads/refinement/kubernetes-crew/terraform/knowledge/kubernetes_ops.md"
+  url = "https://gitlab.com/kubiyabot/golden-usecases/-/raw/main/kubernetes-crew/terraform/terraform/knowledge/kubernetes_ops.md"
 }
 
 data "http" "kubernetes_ops" {
-  url = "https://raw.githubusercontent.com/kubiyabot/community-tools/refinement/kubernetes/knowledge/kubernetes_ops.md"
+  url = "https://gitlab.com/kubiyabot/golden-usecases/-/raw/main/kubernetes-crew/terraform/knowledge/kubernetes_ops.md"
 }
 
 data "http" "kubernetes_security" {
-  url = "https://raw.githubusercontent.com/kubiyabot/community-tools/refinement/kubernetes/knowledge/kubernetes_security.md"
+  url = "https://gitlab.com/kubiyabot/golden-usecases/-/raw/main/kubernetes-crew/terraform/knowledge/kubernetes_security.md"
 }
 
 data "http" "kubernetes_troubleshooting" {
-  url = "https://raw.githubusercontent.com/kubiyabot/community-tools/refinement/kubernetes/knowledge/kubernetes_troubleshooting.md"
+  url = "https://gitlab.com/kubiyabot/golden-usecases/-/raw/main/kubernetes-crew/terraform/knowledge/kubernetes_troubleshooting.md"
 }
 
 provider "kubiya" {
@@ -74,7 +74,7 @@ provider "kubiya" {
 }
 
 resource "kubiya_source" "source" {
-  url = "https://github.com/kubiyabot/community-tools/tree/refinement/kubernetes"
+  url = "https://gitlab.com/kubiyabot/golden-usecases/-/raw/main/kubernetes-crew/terraform"
 }
 
 resource "kubiya_agent" "kubernetes_crew" {
