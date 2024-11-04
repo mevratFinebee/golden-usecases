@@ -42,16 +42,16 @@ resource "kubiya_knowledge" "kubernetes_ops" {
 
 # Load prompts from files
 locals {
-  health_check_prompt     = file("${path.cwd}/prompts/health_check.md")
-  resource_check_prompt   = file("${path.cwd}/prompts/resource_check.md")
-  cleanup_prompt          = file("${path.cwd}/prompts/cleanup.md")
-  network_check_prompt    = file("${path.cwd}/prompts/network_check.md")
-  security_check_prompt   = file("${path.cwd}/prompts/security_check.md")
-  backup_check_prompt     = file("${path.cwd}/prompts/backup_check.md")
-  cost_analysis_prompt    = file("${path.cwd}/prompts/cost_analysis.md")
-  compliance_check_prompt = file("${path.cwd}/prompts/compliance_check.md")
-  update_check_prompt     = file("${path.cwd}/prompts/update_check.md")
-  capacity_check_prompt   = file("${path.cwd}/prompts/capacity_check.md")
+  health_check_prompt     = file("${path.module}/prompts/health_check.md")
+  resource_check_prompt   = file("${path.module}/prompts/resource_check.md")
+  cleanup_prompt          = file("${path.module}/prompts/cleanup.md")
+  network_check_prompt    = file("${path.module}/prompts/network_check.md")
+  security_check_prompt   = file("${path.module}/prompts/security_check.md")
+  backup_check_prompt     = file("${path.module}/prompts/backup_check.md")
+  cost_analysis_prompt    = file("${path.module}/prompts/cost_analysis.md")
+  compliance_check_prompt = file("${path.module}/prompts/compliance_check.md")
+  update_check_prompt     = file("${path.module}/prompts/update_check.md")
+  capacity_check_prompt   = file("${path.module}/prompts/capacity_check.md")
 
   # health_check_prompt     = file("${path.module}/prompts/health_check.md")
   # resource_check_prompt   = file("${path.module}/prompts/resource_check.md")
