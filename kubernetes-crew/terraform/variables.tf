@@ -45,52 +45,51 @@ variable "task_schedules" {
   description = "Schedule configuration for automated tasks"
   type = object({
     health_check = optional(object({
-      start_time = string
+      start_time = optional(string, "09:00")  # Set a default start time
       repeat     = optional(string, "hourly")
     }))
     resource_check = optional(object({
-      start_time = string
+      start_time = optional(string, "10:00")
       repeat     = optional(string, "daily")
     }))
     security_check = optional(object({
-      start_time = string
+      start_time = optional(string, "11:00")
       repeat     = optional(string, "daily")
     }))
     backup_check = optional(object({
-      start_time = string
+      start_time = optional(string, "12:00")
       repeat     = optional(string, "daily")
     }))
     cleanup = optional(object({
-      start_time = string
+      start_time = optional(string, "13:00")
       repeat     = optional(string, "weekly")
     }))
     cost_analysis = optional(object({
-      start_time = string
+      start_time = optional(string, "14:00")
       repeat     = optional(string, "weekly")
     }))
     compliance_check = optional(object({
-      start_time = string
+      start_time = optional(string, "15:00")
       repeat     = optional(string, "monthly")
     }))
     capacity_check = optional(object({
-      start_time = string
+      start_time = optional(string, "16:00")
       repeat     = optional(string, "monthly")
     }))
     upgrade_check = optional(object({
-      start_time = string
+      start_time = optional(string, "17:00")
       repeat     = optional(string, "monthly")
     }))
-
-    scaling_check    = optional(object({
-      start_time = string
+    scaling_check = optional(object({
+      start_time = optional(string, "18:00")
       repeat     = optional(string, "monthly")
     }))
-    network_check    = optional(object({
-      start_time = string
+    network_check = optional(object({
+      start_time = optional(string, "19:00")
       repeat     = optional(string, "monthly")
     }))
-    update_check     = optional(object({
-      start_time = string
+    update_check = optional(object({
+      start_time = optional(string, "20:00")
       repeat     = optional(string, "monthly")
     }))
   })
