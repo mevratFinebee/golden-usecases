@@ -84,7 +84,7 @@ resource "kubiya_knowledge" "kubernetes_ops" {
   description      = "Knowledge base for Kubernetes operations and troubleshooting"
   labels           = ["kubernetes", "operations"]
   supported_agents = [kubiya_agent.kubernetes_crew.name]
-  content          = http.kubernetes_ops_prompt.response_body
+  content          = data.http.kubernetes_ops_prompt.response_body
 }
 
 # Load prompts from files
