@@ -120,6 +120,7 @@ variable "enabled_tasks" {
 variable "cluster_type" {
   description = "Type of Kubernetes cluster (EKS, GKE, AKS, or custom)"
   type        = string
+  default = "EKS"
   validation {
     condition     = contains(["EKS", "GKE", "AKS", "custom"], var.cluster_type)
     error_message = "Cluster type must be one of: EKS, GKE, AKS, or custom"
