@@ -69,10 +69,6 @@ data "http" "kubernetes_troubleshooting" {
   url = "https://gitlab.com/kubiyabot/golden-usecases/-/raw/main/kubernetes-crew/terraform/knowledge/kubernetes_troubleshooting.md"
 }
 
-provider "kubiya" {
-  // API key is set as an environment variable KUBIYA_API_KEY
-}
-
 resource "kubiya_source" "source" {
   url = "https://gitlab.com/kubiyabot/golden-usecases/-/raw/main/kubernetes-crew/terraform"
 }
