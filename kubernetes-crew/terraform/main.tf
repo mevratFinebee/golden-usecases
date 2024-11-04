@@ -45,17 +45,55 @@ resource "kubiya_knowledge" "kubernetes_ops" {
 data "local_file" "health_check_prompt" {
   filename = file("${path.module}/prompts/health_check.md")
 }
+
+data "local_file" "resource_check_prompt" {
+  filename = file("${path.module}/prompts/resource_check_prompt.md")
+}
+
+data "local_file" "cleanup_prompt" {
+  filename = file("${path.module}/prompts/cleanup_prompt.md")
+}
+
+data "local_file" "network_check_prompt" {
+  filename = file("${path.module}/prompts/network_check_prompt.md")
+}
+
+data "local_file" "security_check_prompt" {
+  filename = file("${path.module}/prompts/security_check_prompt.md")
+}
+
+data "local_file" "backup_check_prompt" {
+  filename = file("${path.module}/prompts/backup_check_prompt.md")
+}
+
+data "local_file" "cost_analysis_prompt" {
+  filename = file("${path.module}/prompts/cost_analysis_prompt.md")
+}
+
+data "local_file" "compliance_check_prompt" {
+  filename = file("${path.module}/prompts/compliance_check_prompt.md")
+}
+data "local_file" "update_check_prompt" {
+  filename = file("${path.module}/prompts/update_check_prompt.md")
+}
+data "local_file" "capacity_check_prompt" {
+  filename = file("${path.module}/prompts/capacity_check_prompt.md")
+}
+
+
 locals {
   # health_check_prompt     = file("${path.module}/prompts/health_check.md")
-  resource_check_prompt   = file("${path.module}/prompts/resource_check.md")
-  cleanup_prompt          = file("${path.module}/prompts/cleanup.md")
-  network_check_prompt    = file("${path.module}/prompts/network_check.md")
-  security_check_prompt   = file("${path.module}/prompts/security_check.md")
-  backup_check_prompt     = file("${path.module}/prompts/backup_check.md")
-  cost_analysis_prompt    = file("${path.module}/prompts/cost_analysis.md")
-  compliance_check_prompt = file("${path.module}/prompts/compliance_check.md")
-  update_check_prompt     = file("${path.module}/prompts/update_check.md")
-  capacity_check_prompt   = file("${path.module}/prompts/capacity_check.md")
+  # resource_check_prompt   = file("${path.module}/prompts/resource_check.md")
+  # cleanup_prompt          = file("${path.module}/prompts/cleanup.md")
+  # network_check_prompt    = file("${path.module}/prompts/network_check.md")
+
+  # security_check_prompt   = file("${path.module}/prompts/security_check.md")
+  # backup_check_prompt     = file("${path.module}/prompts/backup_check.md")
+  # cost_analysis_prompt    = file("${path.module}/prompts/cost_analysis.md")
+  # compliance_check_prompt = file("${path.module}/prompts/compliance_check.md")
+
+  # update_check_prompt     = file("${path.module}/prompts/update_check.md")
+  # capacity_check_prompt   = file("${path.module}/prompts/capacity_check.md")
 
   # health_check_prompt     = file("${path.module}/prompts/health_check.md")
   # resource_check_prompt   = file("${path.module}/prompts/resource_check.md")
@@ -86,7 +124,7 @@ resource "kubiya_scheduled_task" "resource_check" {
   repeat         = var.resource_check_repeat
   channel_id     = var.notification_slack_channel
   agent          = kubiya_agent.kubernetes_crew.name
-  description    = var.resource_check_prompt != "" ? var.resource_check_prompt : local.resource_check_prompt
+  description    = var.resource_check_prompt != "" ? var.resource_check_prompt : data.local_file.resource_check_prompt.content
 }
 
 # Cleanup Task
@@ -96,7 +134,7 @@ resource "kubiya_scheduled_task" "cleanup" {
   repeat         = var.cleanup_repeat
   channel_id     = var.notification_slack_channel
   agent          = kubiya_agent.kubernetes_crew.name
-  description    = var.cleanup_prompt != "" ? var.cleanup_prompt : local.cleanup_prompt
+  description    = var.cleanup_prompt != "" ? var.cleanup_prompt : data.local_file.cleanup_prompt.content
 }
 
 # Network Check Task
@@ -106,7 +144,7 @@ resource "kubiya_scheduled_task" "network_check" {
   repeat         = var.network_check_repeat
   channel_id     = var.notification_slack_channel
   agent          = kubiya_agent.kubernetes_crew.name
-  description    = var.network_check_prompt != "" ? var.network_check_prompt : local.network_check_prompt
+  description    = var.network_check_prompt != "" ? var.network_check_prompt : data.local_file.network_check_prompt.content
 }
 
 # Security Check Task
@@ -116,7 +154,7 @@ resource "kubiya_scheduled_task" "security_check" {
   repeat         = var.security_check_repeat
   channel_id     = var.notification_slack_channel
   agent          = kubiya_agent.kubernetes_crew.name
-  description    = var.security_check_prompt != "" ? var.security_check_prompt : local.security_check_prompt
+  description    = var.security_check_prompt != "" ? var.security_check_prompt : data.local_file.security_check_prompt.content
 }
 
 # Backup Verification Task
@@ -126,7 +164,7 @@ resource "kubiya_scheduled_task" "backup_check" {
   repeat         = var.backup_check_repeat
   channel_id     = var.notification_slack_channel
   agent          = kubiya_agent.kubernetes_crew.name
-  description    = var.backup_check_prompt != "" ? var.backup_check_prompt : local.backup_check_prompt
+  description    = var.backup_check_prompt != "" ? var.backup_check_prompt : data.local_file.backup_check_prompt.content
 }
 
 # Cost Analysis Task
@@ -136,7 +174,7 @@ resource "kubiya_scheduled_task" "cost_analysis" {
   repeat         = var.cost_analysis_repeat
   channel_id     = var.notification_slack_channel
   agent          = kubiya_agent.kubernetes_crew.name
-  description    = var.cost_analysis_prompt != "" ? var.cost_analysis_prompt : local.cost_analysis_prompt
+  description    = var.cost_analysis_prompt != "" ? var.cost_analysis_prompt : data.local_file.cost_analysis_prompt.content
 }
 
 # Compliance Check Task
@@ -146,7 +184,7 @@ resource "kubiya_scheduled_task" "compliance_check" {
   repeat         = var.compliance_check_repeat
   channel_id     = var.notification_slack_channel
   agent          = kubiya_agent.kubernetes_crew.name
-  description    = var.compliance_check_prompt != "" ? var.compliance_check_prompt : local.compliance_check_prompt
+  description    = var.compliance_check_prompt != "" ? var.compliance_check_prompt : data.local_file.compliance_check_prompt.content
 }
 
 # Update Check Task
@@ -156,7 +194,7 @@ resource "kubiya_scheduled_task" "update_check" {
   repeat         = var.update_check_repeat
   channel_id     = var.notification_slack_channel
   agent          = kubiya_agent.kubernetes_crew.name
-  description    = var.update_check_prompt != "" ? var.update_check_prompt : local.update_check_prompt
+  description    = var.update_check_prompt != "" ? var.update_check_prompt : data.local_file.update_check_prompt.content
 }
 
 # Capacity Planning Task
@@ -166,7 +204,7 @@ resource "kubiya_scheduled_task" "capacity_check" {
   repeat         = var.capacity_check_repeat
   channel_id     = var.notification_slack_channel
   agent          = kubiya_agent.kubernetes_crew.name
-  description    = var.capacity_check_prompt != "" ? var.capacity_check_prompt : local.capacity_check_prompt
+  description    = var.capacity_check_prompt != "" ? var.capacity_check_prompt : data.local_file.capacity_check_prompt.content
 }
 
 output "kubernetes_crew" {
