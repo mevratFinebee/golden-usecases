@@ -53,8 +53,12 @@ data "http" "capacity_check_prompt" {
   url = "https://gitlab.com/kubiyabot/golden-usecases/-/raw/main/kubernetes-crew/terraform/prompts/capacity_check.md"
 }
 
-data "http" "kubernetes_ops_prompt" {
-  url = "https://gitlab.com/kubiyabot/golden-usecases/-/raw/main/kubernetes-crew/terraform/terraform/knowledge/kubernetes_ops.md"
+data "http" "scaling_check_prompt" {
+  url = "https://gitlab.com/kubiyabot/golden-usecases/-/raw/main/kubernetes-crew/terraform/terraform/prompts/scaling_check_prompt.md"
+}
+
+data "http" "upgrade_check_prompt" {
+  url = "https://gitlab.com/kubiyabot/golden-usecases/-/raw/main/kubernetes-crew/terraform/terraform/prompts/upgrade_check_prompt.md"
 }
 
 data "http" "kubernetes_ops" {
