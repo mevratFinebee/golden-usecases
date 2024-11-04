@@ -14,51 +14,67 @@ provider "kubiya" {
 }
 
 data "http" "health_check_prompt" {
-  url = "https://raw.githubusercontent.com/kubiyabot/community-tools/main/kubernetes/prompts/health_check.md"
+  url = "https://raw.githubusercontent.com/kubiyabot/community-tools/refinement/kubernetes/prompts/health_check.md"
 }
 
 data "http" "resource_check_prompt" {
-  url = "https://raw.githubusercontent.com/kubiyabot/community-tools/main/kubernetes/prompts/resource_check.md"
+  url = "https://raw.githubusercontent.com/kubiyabot/community-tools/refinement/kubernetes/prompts/resource_check.md"
 }
 
 data "http" "cleanup_prompt" {
-  url = "https://raw.githubusercontent.com/kubiyabot/community-tools/main/kubernetes/prompts/cleanup.md"
+  url = "https://raw.githubusercontent.com/kubiyabot/community-tools/refinement/kubernetes/prompts/cleanup.md"
 }
 
 data "http" "network_check_prompt" {
-  url = "https://raw.githubusercontent.com/kubiyabot/community-tools/main/kubernetes/prompts/network_check.md"
+  url = "https://raw.githubusercontent.com/kubiyabot/community-tools/refinement/kubernetes/prompts/network_check.md"
 }
 
 data "http" "security_check_prompt" {
-  url = "https://raw.githubusercontent.com/kubiyabot/community-tools/main/kubernetes/prompts/security_check.md"
+  url = "https://raw.githubusercontent.com/kubiyabot/community-tools/refinement/kubernetes/prompts/security_check.md"
 }
 
 data "http" "backup_check_prompt" {
-  url = "https://raw.githubusercontent.com/kubiyabot/community-tools/main/kubernetes/prompts/backup_check.md"
+  url = "https://raw.githubusercontent.com/kubiyabot/community-tools/refinement/kubernetes/prompts/backup_check.md"
 }
 
 data "http" "cost_analysis_prompt" {
-  url = "https://raw.githubusercontent.com/kubiyabot/community-tools/main/kubernetes/prompts/cost_analysis.md"
+  url = "https://raw.githubusercontent.com/kubiyabot/community-tools/refinement/kubernetes/prompts/cost_analysis.md"
 }
 
 data "http" "compliance_check_prompt" {
-  url = "https://raw.githubusercontent.com/kubiyabot/community-tools/main/kubernetes/prompts/compliance_check.md"
+  url = "https://raw.githubusercontent.com/kubiyabot/community-tools/refinement/kubernetes/prompts/compliance_check.md"
 }
 
 data "http" "update_check_prompt" {
-  url = "https://raw.githubusercontent.com/kubiyabot/community-tools/main/kubernetes/prompts/update_check.md"
+  url = "https://raw.githubusercontent.com/kubiyabot/community-tools/refinement/kubernetes/prompts/update_check.md"
 }
 
 data "http" "capacity_check_prompt" {
-  url = "https://raw.githubusercontent.com/kubiyabot/community-tools/main/kubernetes/prompts/capacity_check.md"
+  url = "https://raw.githubusercontent.com/kubiyabot/community-tools/refinement/kubernetes/prompts/capacity_check.md"
 }
 
 data "http" "kubernetes_ops_prompt" {
-  url = "https://raw.githubusercontent.com/kubiyabot/community-tools/main/kubernetes/knowledge/kubernetes_ops.md"
+  url = "https://raw.githubusercontent.com/kubiyabot/terraform-modules/refs/heads/refinement/kubernetes-crew/terraform/knowledge/kubernetes_ops.md"
+}
+
+data "http" "kubernetes_ops" {
+  url = "https://raw.githubusercontent.com/kubiyabot/community-tools/refinement/kubernetes/knowledge/kubernetes_ops.md"
+}
+
+data "http" "kubernetes_security" {
+  url = "https://raw.githubusercontent.com/kubiyabot/community-tools/refinement/kubernetes/knowledge/kubernetes_security.md"
+}
+
+data "http" "kubernetes_troubleshooting" {
+  url = "https://raw.githubusercontent.com/kubiyabot/community-tools/refinement/kubernetes/knowledge/kubernetes_troubleshooting.md"
+}
+
+provider "kubiya" {
+  // API key is set as an environment variable KUBIYA_API_KEY
 }
 
 resource "kubiya_source" "source" {
-  url = "https://github.com/kubiyabot/community-tools/tree/main/kubernetes"
+  url = "https://github.com/kubiyabot/community-tools/tree/refinement/kubernetes"
 }
 
 resource "kubiya_agent" "kubernetes_crew" {
@@ -79,116 +95,152 @@ resource "kubiya_agent" "kubernetes_crew" {
 }
 
 resource "kubiya_knowledge" "kubernetes_ops" {
-  name             = "Kubernetes Operations Guide"
+  name             = "Kubernetes Operations and Housekeeping Guide"
   groups           = var.groups
-  description      = "Knowledge base for Kubernetes operations and troubleshooting"
-  labels           = ["kubernetes", "operations"]
+  description      = "Knowledge base for Kubernetes housekeeping operations"
+  labels           = ["kubernetes", "operations", "housekeeping"]
   supported_agents = [kubiya_agent.kubernetes_crew.name]
-  content          = data.http.kubernetes_ops_prompt.response_body
+  content          = data.http.kubernetes_ops.response_body
 }
 
-# Load prompts from files
+# Additional knowledge resources
+resource "kubiya_knowledge" "kubernetes_security" {
+  name             = "Kubernetes Security Guide"
+  groups           = var.groups
+  description      = "Security best practices and compliance guidelines"
+  labels           = ["kubernetes", "security"]
+  supported_agents = [kubiya_agent.kubernetes_crew.name]
+  content          = data.http.kubernetes_security.response_body
+}
 
+resource "kubiya_knowledge" "kubernetes_troubleshooting" {
+  name             = "Kubernetes Troubleshooting Guide"
+  groups           = var.groups
+  description      = "Common issues and resolution procedures"
+  labels           = ["kubernetes", "troubleshooting"]
+  supported_agents = [kubiya_agent.kubernetes_crew.name]
+  content          = data.http.kubernetes_troubleshooting.response_body
+}
 
 
 # Core Health Check Task
 resource "kubiya_scheduled_task" "health_check" {
-  count          = var.enable_health_check_task ? 1 : 0
-  scheduled_time = var.health_check_start_time
-  repeat         = var.health_check_repeat
+  count          = var.enabled_tasks.health_check ? 1 : 0
+  scheduled_time = var.task_schedules.health_check.start_time
+  repeat         = var.task_schedules.health_check.repeat
   channel_id     = var.notification_slack_channel
   agent          = kubiya_agent.kubernetes_crew.name
-  description    = var.health_check_prompt != "" ? var.health_check_prompt : data.http.health_check_prompt.response_body
+  description    = data.http.health_check_prompt.response_body
 }
 
 # Resource Optimization Task
 resource "kubiya_scheduled_task" "resource_check" {
-  count          = var.enable_resource_check_task ? 1 : 0
-  scheduled_time = var.resource_check_start_time
-  repeat         = var.resource_check_repeat
+  count          = var.enabled_tasks.resource_check ? 1 : 0
+  scheduled_time = var.task_schedules.resource_check.start_time
+  repeat         = var.task_schedules.resource_check.repeat
   channel_id     = var.notification_slack_channel
   agent          = kubiya_agent.kubernetes_crew.name
-  description    = var.resource_check_prompt != "" ? var.resource_check_prompt : data.http.resource_check_prompt.response_body
+  description    = data.http.resource_check_prompt.response_body
 }
 
 # Cleanup Task
 resource "kubiya_scheduled_task" "cleanup" {
-  count          = var.enable_cleanup_task ? 1 : 0
-  scheduled_time = var.cleanup_start_time
-  repeat         = var.cleanup_repeat
+  count          = var.enabled_tasks.cleanup ? 1 : 0
+  scheduled_time = var.task_schedules.cleanup.start_time
+  repeat         = var.task_schedules.cleanup.repeat
   channel_id     = var.notification_slack_channel
   agent          = kubiya_agent.kubernetes_crew.name
-  description    = var.cleanup_prompt != "" ? var.cleanup_prompt : data.http.cleanup_prompt.response_body
+  description    = data.http.cleanup_prompt.response_body
 }
 
 # Network Check Task
 resource "kubiya_scheduled_task" "network_check" {
-  count          = var.enable_network_check_task ? 1 : 0
-  scheduled_time = var.network_check_start_time
-  repeat         = var.network_check_repeat
+  count          = var.enabled_tasks.network_check ? 1 : 0
+  scheduled_time = var.task_schedules.network_check.start_time
+  repeat         = var.task_schedules.network_check.repeat
   channel_id     = var.notification_slack_channel
   agent          = kubiya_agent.kubernetes_crew.name
-  description    = var.network_check_prompt != "" ? var.network_check_prompt : data.http.network_check_prompt.response_body
+  description    = data.http.network_check_prompt.response_body
 }
 
 # Security Check Task
 resource "kubiya_scheduled_task" "security_check" {
-  count          = var.enable_security_check_task ? 1 : 0
-  scheduled_time = var.security_check_start_time
-  repeat         = var.security_check_repeat
+  count          = var.enabled_tasks.security_check ? 1 : 0
+  scheduled_time = var.task_schedules.security_check.start_time
+  repeat         = var.task_schedules.security_check.repeat
   channel_id     = var.notification_slack_channel
   agent          = kubiya_agent.kubernetes_crew.name
-  description    = var.security_check_prompt != "" ? var.security_check_prompt : data.http.security_check_prompt.response_body
+  description    = data.http.security_check_prompt.response_body
 }
 
 # Backup Verification Task
 resource "kubiya_scheduled_task" "backup_check" {
-  count          = var.enable_backup_check_task ? 1 : 0
-  scheduled_time = var.backup_check_start_time
-  repeat         = var.backup_check_repeat
+  count          = var.enabled_tasks.backup_check ? 1 : 0
+  scheduled_time = var.task_schedules.backup_check.start_time
+  repeat         = var.task_schedules.backup_check.repeat
   channel_id     = var.notification_slack_channel
   agent          = kubiya_agent.kubernetes_crew.name
-  description    = var.backup_check_prompt != "" ? var.backup_check_prompt : data.http.backup_check_prompt.response_body
+  description    = data.http.backup_check_prompt.response_body
 }
 
 # Cost Analysis Task
 resource "kubiya_scheduled_task" "cost_analysis" {
-  count          = var.enable_cost_analysis_task ? 1 : 0
-  scheduled_time = var.cost_analysis_start_time
-  repeat         = var.cost_analysis_repeat
+  count          = var.enabled_tasks.cost_analysis ? 1 : 0
+  scheduled_time = var.task_schedules.cost_analysis.start_time
+  repeat         = var.task_schedules.cost_analysis.repeat
   channel_id     = var.notification_slack_channel
   agent          = kubiya_agent.kubernetes_crew.name
-  description    = var.cost_analysis_prompt != "" ? var.cost_analysis_prompt : data.http.cost_analysis_prompt.response_body
+  description    = data.http.cost_analysis_prompt.response_body
 }
 
 # Compliance Check Task
 resource "kubiya_scheduled_task" "compliance_check" {
-  count          = var.enable_compliance_check_task ? 1 : 0
-  scheduled_time = var.compliance_check_start_time
-  repeat         = var.compliance_check_repeat
+  count          = var.enabled_tasks.compliance_check ? 1 : 0
+  scheduled_time = var.task_schedules.compliance_check.start_time
+  repeat         = var.task_schedules.compliance_check.repeat
   channel_id     = var.notification_slack_channel
   agent          = kubiya_agent.kubernetes_crew.name
-  description    = var.compliance_check_prompt != "" ? var.compliance_check_prompt : data.http.compliance_check_prompt.response_body
+  description    = data.http.compliance_check_prompt.response_body
 }
 
 # Update Check Task
 resource "kubiya_scheduled_task" "update_check" {
-  count          = var.enable_update_check_task ? 1 : 0
-  scheduled_time = var.update_check_start_time
-  repeat         = var.update_check_repeat
+  count          = var.enabled_tasks.update_check ? 1 : 0
+  scheduled_time = var.task_schedules.update_check.start_time
+  repeat         = var.task_schedules.update_check.repeat
   channel_id     = var.notification_slack_channel
   agent          = kubiya_agent.kubernetes_crew.name
-  description    = var.update_check_prompt != "" ? var.update_check_prompt : data.http.update_check_prompt.response_body
+  description    = data.http.update_check_prompt.response_body
 }
 
 # Capacity Planning Task
 resource "kubiya_scheduled_task" "capacity_check" {
-  count          = var.enable_capacity_check_task ? 1 : 0
-  scheduled_time = var.capacity_check_start_time
-  repeat         = var.capacity_check_repeat
+  count          = var.enabled_tasks.capacity_check ? 1 : 0
+  scheduled_time = var.task_schedules.capacity_check.start_time
+  repeat         = var.task_schedules.capacity_check.repeat
   channel_id     = var.notification_slack_channel
   agent          = kubiya_agent.kubernetes_crew.name
-  description    = var.capacity_check_prompt != "" ? var.capacity_check_prompt : data.http.capacity_check_prompt.response_body
+  description    = data.http.capacity_check_prompt.response_body
+}
+
+# Upgrade Assessment Task
+resource "kubiya_scheduled_task" "upgrade_check" {
+  count          = var.enabled_tasks.upgrade_check ? 1 : 0
+  scheduled_time = var.task_schedules.upgrade_check.start_time
+  repeat         = var.task_schedules.upgrade_check.repeat
+  channel_id     = var.notification_slack_channel
+  agent          = kubiya_agent.kubernetes_crew.name
+  description    = data.http.upgrade_check_prompt.response_body
+}
+
+# Scaling Check Task
+resource "kubiya_scheduled_task" "scaling_check" {
+  count          = var.enabled_tasks.scaling_check ? 1 : 0
+  scheduled_time = var.task_schedules.scaling_check.start_time
+  repeat         = var.task_schedules.scaling_check.repeat
+  channel_id     = var.notification_slack_channel
+  agent          = kubiya_agent.kubernetes_crew.name
+  description    = data.http.scaling_check_prompt.response_body
 }
 
 output "kubernetes_crew" {
