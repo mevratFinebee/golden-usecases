@@ -80,6 +80,19 @@ variable "task_schedules" {
       start_time = string
       repeat     = optional(string, "monthly")
     }))
+
+    scaling_check    = optional(object({
+      start_time = string
+      repeat     = optional(string, "monthly")
+    }))
+    network_check    = optional(object({
+      start_time = string
+      repeat     = optional(string, "monthly")
+    }))
+    update_check     = optional(object({
+      start_time = string
+      repeat     = optional(string, "monthly")
+    }))
   })
   default = {}
 }
@@ -88,13 +101,13 @@ variable "task_schedules" {
 variable "custom_cluster_instructions" {
   description = "Custom instructions about your specific Kubernetes cluster setup and management practices"
   type = object({
-    cluster_specifics = optional(string, "")  # Specific details about your cluster setup
-    naming_conventions = optional(string, "")  # Your organization's naming conventions
-    security_policies = optional(string, "")   # Custom security policies and requirements
-    backup_policies = optional(string, "")     # Specific backup and DR procedures
-    monitoring_setup = optional(string, "")    # Details about monitoring tools and practices
-    deployment_flows = optional(string, "")    # Custom deployment procedures
-    contact_info = optional(string, "")        # Emergency contacts and escalation paths
+    cluster_specifics  = optional(string, "") # Specific details about your cluster setup
+    naming_conventions = optional(string, "") # Your organization's naming conventions
+    security_policies  = optional(string, "") # Custom security policies and requirements
+    backup_policies    = optional(string, "") # Specific backup and DR procedures
+    monitoring_setup   = optional(string, "") # Details about monitoring tools and practices
+    deployment_flows   = optional(string, "") # Custom deployment procedures
+    contact_info       = optional(string, "") # Emergency contacts and escalation paths
   })
   default = {}
 }
@@ -103,6 +116,9 @@ variable "custom_cluster_instructions" {
 variable "enabled_tasks" {
   description = "Control which automated tasks are enabled"
   type = object({
+    scaling_check    = optional(bool, true)
+    network_check    = optional(bool, true)
+    update_check     = optional(bool, true)
     health_check     = optional(bool, true)
     resource_check   = optional(bool, true)
     security_check   = optional(bool, true)
@@ -120,7 +136,7 @@ variable "enabled_tasks" {
 variable "cluster_type" {
   description = "Type of Kubernetes cluster (EKS, GKE, AKS, or custom)"
   type        = string
-  default = "EKS"
+  default     = "EKS"
   validation {
     condition     = contains(["EKS", "GKE", "AKS", "custom"], var.cluster_type)
     error_message = "Cluster type must be one of: EKS, GKE, AKS, or custom"
