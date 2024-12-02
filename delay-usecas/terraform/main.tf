@@ -18,6 +18,8 @@ resource "kubiya_knowledge" "first_knowledge" {
   groups      = ["Admin"]
   content     = "first knowledge content - number 1 - immediately"
   description = "first knowledge description - number 1 - immediately"
+
+  supported_agents = ["mevrat-enforcer"]
 }
 
 resource "time_sleep" "first_delay" {
@@ -32,6 +34,8 @@ resource "kubiya_knowledge" "second_knowledge" {
   groups      = ["Admin"]
   content     = "second knowledge content - number 2 - delayed 30 seconds"
   description = "second knowledge description - number 2 - delayed 30 seconds"
+
+  supported_agents = ["mevrat-enforcer"]
 }
 
 resource "time_sleep" "second_delay" {
@@ -46,4 +50,6 @@ resource "kubiya_knowledge" "third_knowledge" {
   groups      = ["Admin"]
   content     = "third knowledge content - number 3 - delayed 30 seconds"
   description = "third knowledge description - number 3 - delayed 30 seconds"
+
+  supported_agents = ["mevrat-enforcer"]
 }
