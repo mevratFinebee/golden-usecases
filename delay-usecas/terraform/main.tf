@@ -22,7 +22,7 @@ resource "kubiya_knowledge" "first_knowledge" {
 
 resource "time_sleep" "first_delay" {
   depends_on      = [kubiya_knowledge.first_knowledge]
-  create_duration = var.first_delay
+  create_duration = var.delay
 }
 
 resource "kubiya_knowledge" "second_knowledge" {
@@ -36,7 +36,7 @@ resource "kubiya_knowledge" "second_knowledge" {
 
 resource "time_sleep" "second_delay" {
   depends_on      = [kubiya_knowledge.second_knowledge]
-  create_duration = var.second_delay
+  create_duration = var.delay
 }
 
 resource "kubiya_knowledge" "third_knowledge" {

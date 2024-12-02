@@ -1,9 +1,4 @@
-variable "first_delay" {
-  type        = string
-  default     = "30s"
-}
-
-variable "second_delay" {
+variable "delay" {
   type        = string
   default     = "30s"
 }
