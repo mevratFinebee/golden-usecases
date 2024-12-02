@@ -9,6 +9,8 @@ terraform {
   }
 }
 
+provider "time" {}
+
 provider "kubiya" {}
 
 resource "kubiya_knowledge" "first_knowledge" {
