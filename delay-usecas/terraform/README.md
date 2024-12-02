@@ -62,18 +62,3 @@ This Terraform plan creates three knowledge resources sequentially using the `ku
 | `second_delay` | Duration for the delay after the second resource | `30s`   |
 
 ---
-
-## 🌟 Workflow Overview
-
-```mermaid
-graph TD
-    A[Create kubiya_knowledge.first] --> B[time_sleep.wait_30_seconds_first]
-    B --> C[Create kubiya_knowledge.second]
-    C --> D[time_sleep.wait_30_seconds_second]
-    D --> E[Create kubiya_knowledge.third]
-    
-    style A fill:#f9d71c,stroke:#333,stroke-width:2px
-    style B fill:#3498db,stroke:#333,stroke-width:2px
-    style C fill:#2ecc71,stroke:#333,stroke-width:2px
-    style D fill:#e74c3c,stroke:#333,stroke-width:2px
-    style E fill:#9b59b6,stroke:#333,stroke-width:2px
