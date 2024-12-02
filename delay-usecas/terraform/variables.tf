@@ -5,5 +5,5 @@ variable "first_delay" {
 
 variable "second_delay" {
   type        = string
-  default     = "60s"
+  default     = "30s"
 }
